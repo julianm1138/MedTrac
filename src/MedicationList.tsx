@@ -7,7 +7,7 @@ interface Medication {
   _id: string;
   name: string;
   dosage: string;
-  schedule: string; // Assuming schedule is a date string
+  schedule: string;
 }
 
 const MedicationList: React.FC = () => {
@@ -18,7 +18,7 @@ const MedicationList: React.FC = () => {
     const fetchMedications = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/medications"
+          "https://medtrac-production.up.railway.app/api/medications"
         );
         setMedications(response.data);
       } catch (error) {
@@ -41,7 +41,9 @@ const MedicationList: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/medications/${id}`);
+      await axios.delete(
+        `https://medtrac-production.up.railway.app/api/medications/${id}`
+      );
       setMedications((prev) =>
         prev.filter((medication) => medication._id !== id)
       );

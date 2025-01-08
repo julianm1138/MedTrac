@@ -14,11 +14,14 @@ const AddMedication: React.FC = () => {
     e.preventDefault();
     if (schedule) {
       try {
-        await axios.post("http://localhost:5000/api/medications", {
-          name,
-          dosage,
-          schedule: schedule.toISOString(),
-        });
+        await axios.post(
+          "https://medtrac-production.up.railway.app/api/medications",
+          {
+            name,
+            dosage,
+            schedule: schedule.toISOString(),
+          }
+        );
         navigate("/list");
       } catch (error) {
         console.error("Error adding medication:", error);
