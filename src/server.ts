@@ -38,6 +38,7 @@ const Medication = mongoose.model("Medication", medicationSchema);
 // Routes
 app.get("/api/medications", async (req, res) => {
   try {
+    console.log(req);
     const medications = await Medication.find();
     res.json(medications);
   } catch (error) {
