@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-purple-300 py-10 px-4">
       <h1 className="text-5xl font-extrabold text-blue-800 mb-8 tracking-tight text-center">
-        MedTrack
+        MedTrac
       </h1>
       <div className="text-lg text-gray-800 font-medium flex flex-col sm:flex-row gap-4 sm:gap-8 items-center">
         <Link

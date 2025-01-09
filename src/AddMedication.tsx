@@ -85,6 +85,7 @@ const AddMedication: React.FC = () => {
               timeFormat="HH:mm"
               timeIntervals={15}
               dateFormat="MMMM d, yyyy h:mm aa"
+              minDate={new Date()}
               placeholderText="Select a date and time"
               className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
