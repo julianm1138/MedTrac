@@ -1,4 +1,5 @@
 import express from "express";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -13,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: "https://medtrac.netlify.app",
-    methods: ["GET", "POST", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -43,8 +44,8 @@ const Medication = mongoose.model("Medication", medicationSchema);
 
 // Routes
 app.get("/api/medications", async (req, res) => {
+  console.log(req);
   try {
-    console.log(req);
     const medications = await Medication.find();
     res.json(medications);
   } catch (error) {
@@ -65,13 +66,38 @@ app.post("/api/medications", async (req, res) => {
   }
 });
 
+// prettier-ignore
+app.put(
+  "/api/medications/:id",
+  async (req: Request, res: Response): Promise<any> => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    const { id } = req.params;
+    const { name, dosage, schedule } = req.body;
+    try {
+      const updatedMedication = await Medication.findByIdAndUpdate(
+        id,
+        { name, dosage, schedule },
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedMedication) {
+        return res.status(404).json({ message: "Medication not found" });
+      }
+
+      res.status(200).json(updatedMedication); // Send the updated medication as the response
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server Error" });
+    }
+  }
+);
+
 app.delete("/api/medications/:id", async (req, res) => {
   const { id } = req.params;
   try {
     await Medication.findByIdAndDelete(id);
     res.status(200).json({ message: "Medication successfully deleted" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleteing medication" });
+    res.status(500).json({ message: "Error deleting medication" });
     console.log(error);
   }
 });
